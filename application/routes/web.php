@@ -22,5 +22,18 @@ Route::get('/contact', function() {
 })->name('home.contact');
 
 Route::get('/posts/{id}', function($id) {
-    return 'Blog Post : ' . $id;
-})->name('Un Post');
+    $posts = [
+        1=> [
+            "title" => 'Into to Laravel',
+            "content" => "This is a short intro to Laravel"
+        ],
+        2=> [
+            "title" => "Into to PhP",
+            "content" => "This is a short intro to PHP"
+        ]
+    ];
+
+    abort_if(!isset($posts[$id]), 404);
+
+    return view('posts.show', ["post" => $posts[$id]]);
+})->name('posts.show');

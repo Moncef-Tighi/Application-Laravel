@@ -1,6 +1,6 @@
 @extends('home.app')
 
-@section('titre') Contacte @endsection
+@section('titre', "contacte")
 
 @section('contenu')
 <h1>Page contacte</h1>
