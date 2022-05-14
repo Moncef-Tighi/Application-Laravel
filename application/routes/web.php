@@ -28,16 +28,24 @@ $posts = [
         "is_new" => false
     ]
 ];
-Route::get('/posts', function() use($posts) {
-    return view('posts.liste', ["posts" => $posts]);
-})->name('posts.liste');
 
-Route::get('/posts/{id}', function($id) use($posts) {
+Route::prefix('/posts')->name('posts.')->group(function() use($posts){
 
-    abort_if(!isset($posts[$id]), 404);
+    Route::get('/', function() use($posts) {
+        return view('posts.liste', ["posts" => $posts]);
+    })->name('liste');
+    
+    Route::get('/{id}', function($id) use($posts) {
+    
+        abort_if(!isset($posts[$id]), 404);
+    
+        return view('posts.show', ["post" => $posts[$id]]);
+    })->name('show');
+});
 
-    return view('posts.show', ["post" => $posts[$id]]);
-})->name('posts.show');
-
-
+Route::get('/responses', function() use($posts){
+    return response() 
+    ->json($posts)
+    ->cookie('COOKIE', 'Test', 3600);
+})->name('responses');
 
