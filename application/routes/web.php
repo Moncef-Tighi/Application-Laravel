@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'home.index')->name("home.index");
-Route::view('/', 'home.contact')->name("home.contact");
+Route::get('/',[HomeController::class, "home"])->name("home.index");
+Route::get('/contact', [HomeController::class, "contact"])->name("home.contact");
 
 $posts = [
     1=> [
@@ -31,7 +33,8 @@ $posts = [
 
 Route::prefix('/posts')->name('posts.')->group(function() use($posts){
 
-    Route::get('/', function() use($posts) {
+    Route::get('/', function(Request $request) use($posts) {
+        dd($request->query());
         return view('posts.liste', ["posts" => $posts]);
     })->name('liste');
     
